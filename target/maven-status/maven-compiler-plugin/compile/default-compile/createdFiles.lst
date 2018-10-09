@@ -1,0 +1,8 @@
+com\testdev\platform\controller\BillListController.class
+com\testdev\platform\PlatformApplication.class
+com\testdev\platform\controller\LoginController.class
+com\testdev\platform\controller\ProviderListController.class
+com\testdev\platform\controller\IndexController.class
+com\testdev\platform\domain\Bill.class
+com\testdev\platform\services\BillService.class
+com\testdev\platform\controller\UserListController.class

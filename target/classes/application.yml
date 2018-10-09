@@ -1,0 +1,27 @@
+server:
+  port: 8080
+##################开启包自动扫描##############
+
+#################数据库连接配置###############
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/autotest
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+##################配置thymeleaf模板及HTML访问路径##############
+  thymeleaf:
+    mode: HTML5
+    encoding: utf-8
+    cache: false
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+debug: false
