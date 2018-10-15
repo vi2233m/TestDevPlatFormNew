@@ -23,7 +23,7 @@ public class BillDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
 
     public Bill searchBillByEm(String name, String type, String url, String header, int pageNo, int pageSize){
         StringBuffer jpql = new StringBuffer("from interface w where 1=1 ");

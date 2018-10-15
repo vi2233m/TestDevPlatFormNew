@@ -8,62 +8,67 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class BaseRepositoryImpl <T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
+@Repository
+public class BaseRepositoryImpl <T, ID extends Serializable>  implements BaseRepository<T, ID> {
 
-    //实体管理类，对持久化实体做增删改查，自动义sq操作模板所需要的核心类
-    public final EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    public BaseRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager em) {
-        super(entityInformation, em);
-        this.entityManager = em;
-    }
-
-
+    @Transactional
     @Override
-    @org.springframework.transaction.annotation.Transactional(rollbackFor = Exception.class)
-    public List<Map> findAllByParams(String sql, Object... args){
-
-        //获取session
-        Session session = (Session) entityManager.getDelegate();
-        org.hibernate.Query q = session.createSQLQuery(sql);
-        //查询结果转map
-        q.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-        int i = 0;
-        for (Object arg : args
-                ) {
-            q.setParameter(i++, arg);
+    public List<T> findByMoreFiled(String tablename,LinkedHashMap<String,Object> map) {
+        String sql="from "+tablename+" u WHERE ";
+        Set<String> set=null;
+        set=map.keySet();
+        List<String> list=new ArrayList<>(set);
+        List<Object> filedlist=new ArrayList<>();
+        for (String filed:list){
+            sql+="u."+filed+"=? and ";
+            filedlist.add(filed);
         }
-        return q.list();
+        sql=sql.substring(0,sql.length()-4);
+        System.out.println(sql+"--------sql语句-------------");
+        Query query=entityManager.createQuery(sql);
+        for (int i=0;i<filedlist.size();i++){
+            query.setParameter(i+1,map.get(filedlist.get(i)));
+        }
+        List<T> listRe= query.getResultList();
+        entityManager.close();
+        return listRe;
     }
-
-
+    @Transactional
     @Override
-    @org.springframework.transaction.annotation.Transactional(rollbackFor = Exception.class)
-    public Page<Map> findPageByParams(String sql, Pageable pageable, Object... args){
-
-        Session session = (Session) entityManager.getDelegate();
-        org.hibernate.Query q = session.createSQLQuery(sql);
-        q.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-        int i = 0;
-        for (Object arg : args
-                ) {
-            q.setParameter(i++, arg);
+    public List<T> findByMoreFiledpages(String tablename,LinkedHashMap<String,Object> map,int start,int pageNumber) {
+        String sql="from "+tablename+" u WHERE ";
+        Set<String> set=null;
+        set=map.keySet();
+        List<String> list=new ArrayList<>(set);
+        List<Object> filedlist=new ArrayList<>();
+        for (String filed:list){
+            sql+="u."+filed+"=? and ";
+            filedlist.add(filed);
         }
-
-        List<Map> totalCount = q.list();
-        q.setFirstResult(pageable.getPageSize() * (pageable.getPageNumber() - 1));
-        q.setMaxResults(pageable.getPageSize());
-        List<Map> pageCount = q.list();
-        Page<Map> pages = new PageImpl<>(pageCount, pageable, totalCount.size());
-        return pages;
+        sql=sql.substring(0,sql.length()-4);
+        System.out.println(sql+"--------sql语句-------------");
+        Query query=entityManager.createQuery(sql);
+        for (int i=0;i<filedlist.size();i++){
+            query.setParameter(i+1,map.get(filedlist.get(i)));
+        }
+        query.setFirstResult((start-1)*pageNumber);
+        query.setMaxResults(pageNumber);
+        List<T> listRe= query.getResultList();
+        entityManager.close();
+        return listRe;
     }
-
 }
 

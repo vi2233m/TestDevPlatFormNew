@@ -7,27 +7,29 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @NoRepositoryBean //该注解表示 spring 容器不会创建该对象
-public interface BaseRepository <T, ID extends Serializable> extends JpaRepository<T,ID>, PagingAndSortingRepository<T, ID> {
+public interface BaseRepository <T, ID extends Serializable>  {
 
     /**
-     *sql查询
-     * @param sql
-     * @param args
+     * 多个字段的查询
+     * @param tablename 表名
+     * @param map 将你的字段传入map中
      * @return
      */
-    List<Map> findAllByParams(String sql, Object... args);
+    List<T> findByMoreFiled(String tablename,LinkedHashMap<String,Object> map);
 
     /**
-     * sql分页查询
-     * @param sql
-     * @param pageable
-     * @param args
+     * 多字段查询分页
+     * @param tablename 表名
+     * @param map 以map存储key,value
+     * @param start 第几页
+     * @param pageNumer 一个页面的条数
      * @return
      */
-    Page<Map> findPageByParams(String sql, Pageable pageable, Object... args);
+    List<T> findByMoreFiledpages(String tablename, LinkedHashMap<String,Object> map, int start, int pageNumer);
 
 }
