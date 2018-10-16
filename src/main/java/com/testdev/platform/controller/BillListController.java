@@ -3,12 +3,15 @@ package com.testdev.platform.controller;
 import com.testdev.platform.dao.BillDao;
 import com.testdev.platform.domain.Bill;
 import com.testdev.platform.services.BillRepositroy;
+import com.testdev.platform.services.BillSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping
@@ -28,15 +31,19 @@ public class BillListController {
     }
 
     @Autowired
-    private BillDao billDao;
+    private BillSearch billSearch;
     @RequestMapping(value = "/interface/search", method = RequestMethod.POST)
-//  @PathVariable("name") String name, @PathVariable("type") String type, @PathVariable("url") String url, @PathVariable("header") String header
     public String billSearch(@RequestParam(value ="name") String name, @RequestParam("type") String type, @RequestParam("url") String url, @RequestParam("header") String header, Model model) {
-        //BillDao bd = new BillDao();
+       System.out.println("=============================================================================");
         System.out.println("name: " + name + " type: " + type + " url: " + url + " header: " + header);
-        Bill result = this.billDao.searchBillByEm(name, type, url, header, 0, 10);
-        model.addAttribute("results", result);
-        return "tables1";
+//        Bill result = this.billDao.searchBillByEm(name, type, url, header, 0, 10);
+//        model.addAttribute("results", result);
+//        return "tables1";
+
+        List<Bill> restuts = billSearch.findBills(name, type, url, header);
+        model.addAttribute("results", restuts);
+        return "tables";
+
     }
 
 
