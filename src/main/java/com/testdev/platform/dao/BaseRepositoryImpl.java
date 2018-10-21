@@ -32,20 +32,26 @@ public class BaseRepositoryImpl <T, ID extends Serializable>  implements BaseRep
         set=map.keySet();
         List<String> list=new ArrayList<>(set);
         List<Object> filedlist=new ArrayList<>();
-        for (String filed:list){
-            sql+="u."+filed+"=? and ";
+        for (int i=0; i<list.size(); i++ ){
+            String filed = list.get(i);
+            sql+="u."+filed+" like ?"+(i+1)+" and ";
             filedlist.add(filed);
         }
         sql=sql.substring(0,sql.length()-4);
+        System.out.println("filelist is :" +filedlist);
         System.out.println(sql+"--------sql语句-------------");
         Query query=entityManager.createQuery(sql);
         for (int i=0;i<filedlist.size();i++){
-            query.setParameter(i+1,map.get(filedlist.get(i)));
+//            String value1 = filedlist.get(i).toString();
+//            String value2 = map.get(filedlist.get(i)).toString();
+//            System.out.println("value: " + map.get(filedlist.get(i)));
+            query.setParameter(i+1,"%"+map.get(filedlist.get(i)).toString()+"%");
         }
         List<T> listRe= query.getResultList();
         entityManager.close();
         return listRe;
     }
+
     @Transactional
     @Override
     public List<T> findByMoreFiledpages(String tablename,LinkedHashMap<String,Object> map,int start,int pageNumber) {
@@ -54,21 +60,44 @@ public class BaseRepositoryImpl <T, ID extends Serializable>  implements BaseRep
         set=map.keySet();
         List<String> list=new ArrayList<>(set);
         List<Object> filedlist=new ArrayList<>();
-        for (String filed:list){
-            sql+="u."+filed+"=? and ";
+        for (int i=0; i<list.size(); i++ ){
+            String filed = list.get(i);
+            sql+="u."+filed+" like ?"+(i+1)+" and ";
             filedlist.add(filed);
         }
         sql=sql.substring(0,sql.length()-4);
         System.out.println(sql+"--------sql语句-------------");
         Query query=entityManager.createQuery(sql);
         for (int i=0;i<filedlist.size();i++){
-            query.setParameter(i+1,map.get(filedlist.get(i)));
+            query.setParameter(i+1,"%"+map.get(filedlist.get(i))+"%");
         }
         query.setFirstResult((start-1)*pageNumber);
         query.setMaxResults(pageNumber);
         List<T> listRe= query.getResultList();
         entityManager.close();
         return listRe;
+    }
+
+    @Transactional
+    @Override
+    public Object findCount(String tablename, LinkedHashMap<String, Object> map) {
+        String sql="select count(u) from "+tablename+" u WHERE ";
+        Set<String> set=null;
+        set=map.keySet();
+        List<String> list=new ArrayList<>(set);
+        List<Object> filedlist=new ArrayList<>();
+        for (int i=0; i<list.size(); i++ ){
+            String filed = list.get(i);
+            sql+="u."+filed+" like ?"+(i+1)+" and ";
+            filedlist.add(filed);
+        }
+        sql=sql.substring(0,sql.length()-4);
+        System.out.println(sql+"--------sql语句-------------");
+        Query query=entityManager.createQuery(sql);
+        for (int i=0;i<filedlist.size();i++){
+            query.setParameter(i+1,"%"+map.get(filedlist.get(i))+"%");
+        }
+        return query.getSingleResult();
     }
 }
 

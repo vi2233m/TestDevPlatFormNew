@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@NoRepositoryBean //该注解表示 spring 容器不会创建该对象
+//@NoRepositoryBean //该注解表示 spring 容器不会创建该对象
 public interface BaseRepository <T, ID extends Serializable>  {
 
     /**
@@ -32,4 +32,12 @@ public interface BaseRepository <T, ID extends Serializable>  {
      */
     List<T> findByMoreFiledpages(String tablename, LinkedHashMap<String,Object> map, int start, int pageNumer);
 
+    /**
+     * 根据条件查询总条数返回object类型
+     * @param tablename  表名
+     * @param map 传入参数放入map中
+     * @return
+     */
+    Object findCount(String tablename, LinkedHashMap<String,Object> map);
 }
+

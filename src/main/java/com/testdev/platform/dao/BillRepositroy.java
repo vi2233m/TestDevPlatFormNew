@@ -1,4 +1,4 @@
-package com.testdev.platform.services;
+package com.testdev.platform.dao;
 
 import com.testdev.platform.dao.BaseRepository;
 import com.testdev.platform.domain.Bill;
@@ -29,4 +29,7 @@ public interface  BillRepositroy extends JpaRepository<Bill, Integer> {
 
     @Override
     Page<Bill> findAll(Pageable pageable);
+
+    @Override
+    long count();
 }

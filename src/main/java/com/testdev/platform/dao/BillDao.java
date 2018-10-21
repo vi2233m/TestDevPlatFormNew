@@ -26,7 +26,7 @@ public class BillDao {
 //    @Transactional(readOnly = true)
 
     public Bill searchBillByEm(String name, String type, String url, String header, int pageNo, int pageSize){
-        StringBuffer jpql = new StringBuffer("from interface w where 1=1 ");
+        StringBuffer jpql = new StringBuffer("from Bill w where 1=1 ");
         Map<String, Object> paramMap = new HashMap<>();
         if ( !StringUtils.isEmpty(name)){
             jpql.append(" and w.name = :name");
