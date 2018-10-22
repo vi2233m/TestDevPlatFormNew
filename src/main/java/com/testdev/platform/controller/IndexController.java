@@ -40,7 +40,12 @@ public class IndexController {
         System.out.println("pageNo: " + pageNo);
         long count = this.billRepository.count();
         int pageSize = 10;
-        long pageCount = count/pageSize + 1;
+        long pageCount;
+        if (count % pageSize != 0 ){
+            pageCount = count/pageSize + 1;
+        }else {
+            pageCount = count/pageSize;
+        }
 
         if (pageNo > 1 && pageNo < pageCount) {
             Page<Bill> result1 = this.billRepository.findAll(new PageRequest(pageNo - 1, pageSize));

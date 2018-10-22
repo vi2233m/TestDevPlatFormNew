@@ -179,8 +179,8 @@
                                         <td>
 											当前为第&nbsp;<span th:text="${pageNo}"/> &nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;
                                             共&nbsp; <span th:text="${pageCount}"/> &nbsp;页&nbsp;<span th:text="${count}"/> &nbsp;条记录&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{tables(pageNo=${pageNo}-1)}" >上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{tables(pageNo=${pageNo}+1)}" >下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{tables1(pageNo=${pageNo}-1)}" >上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{tables1(pageNo=${pageNo}+1)}" >下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                         </td>
                                         <td>
                                             <form th:action="@{tables}"  method="post">

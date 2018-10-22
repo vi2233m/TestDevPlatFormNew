@@ -37,7 +37,7 @@ public class BillListController {
 
     @Autowired
     private BillSearch billSearch;
-    @RequestMapping(value = "/tables1", method = RequestMethod.POST)
+    @RequestMapping(value = "/tables1")
     public String billSearch(@RequestParam("pageNo") int pageNo, @RequestParam(value ="name") String name, @RequestParam("type") String type, @RequestParam("url") String url, @RequestParam("header") String header, Model model) {
        System.out.println("=============================================================================");
         System.out.println("name: " + name + " type: " + type + " url: " + url + " header: " + header);
@@ -65,13 +65,23 @@ public class BillListController {
 
         if (map.isEmpty()){
             Page<Bill> results = this.billRepository.findAll(new PageRequest(pageNo-1, pageSize));
+
             count = this.billRepository.count();
-            pageCount = count/pageSize + 1;
+            if (count % pageSize != 0 ){
+                pageCount = count/pageSize + 1;
+            }else {
+                pageCount = count/pageSize;
+            }
             model.addAttribute("interfaces", results);
 
         }else {
+
             count = (long)this.billSearch.findCounts(map);
-            pageCount = count/pageSize + 1;
+            if (count % pageSize != 0 ){
+                pageCount = count/pageSize + 1;
+            }else {
+                pageCount = count/pageSize;
+            }
             List<Bill> results = billSearch.findBillPage(map, pageNo-1, pageSize);
             model.addAttribute("interfaces", results);
         }
@@ -80,7 +90,7 @@ public class BillListController {
         model.addAttribute("pageCount", pageCount); //总页数
         model.addAttribute("pageNo", pageNo);//当前页数
 
-        return "tables";
+        return "tables2";
     }
 
 
