@@ -3,6 +3,8 @@ package com.testdev.platform.controller;
 import com.testdev.platform.dao.BillDao;
 import com.testdev.platform.domain.Bill;
 import com.testdev.platform.dao.BillRepositroy;
+import com.testdev.platform.services.BillAdd;
+import com.testdev.platform.services.BillDelete;
 import com.testdev.platform.services.BillSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,24 +22,50 @@ import java.util.List;
 @RequestMapping
 public class BillListController {
 
-    @RequestMapping("/billAdd")
-    public String billAdd(){
-        return "billAdd";
+    @RequestMapping(value = "/billAddView")
+    public String billAddView(){
+
+        return "formelements";
     }
 
     //根据ID 查询出具体的对象信息
     @Autowired
     private BillRepositroy billRepository;
-    private BillDao billDao;
-    @RequestMapping("/interface/{id}")
-    public String billView(@PathVariable ("id") int id){
-        System.out.println("id: " + id);
+    @Autowired
+    private BillAdd billAdd;
+    @RequestMapping(value = "/billAdd")
+    public String billAdd( @RequestParam("name") String name, @RequestParam("url") String url, @RequestParam("type") String type, @RequestParam("header") String header, @RequestParam("body") String body, Model model){
+        System.out.println("=============================================================================");
+        System.out.println("name: " + name + " type: " + type + " url: " + url + " header: " + header);
+
+        Bill bill = new Bill();
+        if(name != null && name != ""){
+            bill.setName(name);
+        }
+        if(url != null && url != ""){
+            bill.setUrl(url);
+        }
+        if(type != null && type != ""){
+            bill.setType(type);
+        }
+        if(header != null && header != ""){
+            bill.setHeader(header);
+        }
+        if(body != null && body != ""){
+            bill.setBody(body);
+        }
+
+        boolean isTure = billAdd.billSave(bill);
+        model.addAttribute("isTrue", isTure);
+
         return "formelements";
     }
 
+//    @Autowired
+//    private BillRepositroy billRepository;
     @Autowired
     private BillSearch billSearch;
-    @RequestMapping(value = "/tables1")
+    @RequestMapping(value = "/billSearch")
     public String billSearch(@RequestParam("pageNo") int pageNo, @RequestParam(value ="name") String name, @RequestParam("type") String type, @RequestParam("url") String url, @RequestParam("header") String header, Model model) {
        System.out.println("=============================================================================");
         System.out.println("name: " + name + " type: " + type + " url: " + url + " header: " + header);
@@ -82,21 +110,38 @@ public class BillListController {
             }else {
                 pageCount = count/pageSize;
             }
-            List<Bill> results = billSearch.findBillPage(map, pageNo-1, pageSize);
+            // 限制最大页数和最小页数
+            if(pageNo > pageCount){
+                pageNo = (int) pageCount;
+            }
+            if(pageNo < 1){
+                pageNo = 1;
+            }
+            List<Bill> results = billSearch.findBillPage(map, pageNo, pageSize);
             model.addAttribute("interfaces", results);
         }
 
         model.addAttribute("count", count); //总条数
         model.addAttribute("pageCount", pageCount); //总页数
         model.addAttribute("pageNo", pageNo);//当前页数
+        model.addAttribute("map",map);
 
         return "tables2";
     }
 
 
-    @RequestMapping("/billUpdate")
-    public String billUpdate(){
-        return "billUpdate";
+    @RequestMapping("/billDelete")
+    public String billDelete(@RequestParam("id") int id){
+
+        Bill bill = new Bill();
+        BillDelete billDelete = new BillDelete();
+        if(id != 0 ){
+//            bill.setId(id);
+            Object o = billDelete.findById(bill, id);
+            System.out.println("Bill: " + bill.getId() +"  " + bill.getUrl() +"  " + bill.getType() +"  " + bill.getHeader() +"  " + bill.getBody());
+            billDelete.billDelete((Bill) o);
+        }
+        return "tables";
     }
 
 

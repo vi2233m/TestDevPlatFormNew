@@ -15,6 +15,13 @@ import java.util.Map;
 public interface BaseRepository <T, ID extends Serializable>  {
 
     /**
+     * 保存数据对象
+     * @param entity
+     * @return
+     */
+    boolean save(T entity);
+
+    /**
      * 多个字段的查询
      * @param tablename 表名
      * @param map 将你的字段传入map中
@@ -39,5 +46,26 @@ public interface BaseRepository <T, ID extends Serializable>  {
      * @return
      */
     Object findCount(String tablename, LinkedHashMap<String,Object> map);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @param t
+     * @return
+     */
+    T findByid(T t,int id);
+
+    /**
+     * 根据表的id删除数据
+     * @param  entity
+     */
+    boolean delete(T entity);
+
+    /**
+     * 更新对象
+     * @param e
+     * @return
+     */
+    boolean update(T e);
 }
 

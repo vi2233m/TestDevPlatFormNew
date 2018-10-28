@@ -66,7 +66,7 @@
 
 								<div class="search">
 									<table width="100%" class="CSSearchTbl" cellpadding="0" cellspacing="0">
-										<form th:action="@{tables1(pageNo=1)}" method="post">
+										<form th:action="@{billSearch(pageNo=1)}" method="post">
 											<tr>
 												<td class="left">用例编号：</td>
 												<td class="right"><input type="text" size="16" name="name"></td>
@@ -153,17 +153,24 @@
 													</td>
 													<td>
 														<div class="hidden-sm hidden-xs btn-group">
-															<a th:href="@{interface}" class="btn btn-xs btn-success" title="">
+															<a th:href="@{billAdd}" class="btn btn-xs btn-success" title="">
 																<i class="ace-icon fa fa-search-plus bigger-120"></i>
 															</a>
 
-															<a th:href="@{interface(id=${interface.id})}" class="btn btn-xs btn-info">
+															<a th:href="@{billAdd(id=${interface.id})}" class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</a>
 
-															<button class="btn btn-xs btn-danger">
+															<script language="javascript">
+                                                                function delcfm() {
+                                                                    if (!confirm("确认要删除？")) {
+                                                                        window.event.returnValue = false;
+                                                                    }
+                                                                }
+															</script>
+															<a th:href="@{billDelete(id=${interface.id})}" onclick="delcfm()" class="btn btn-xs btn-danger">
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
-															</button>
+															</a>
 														</div>
 													</td>
 												</tr>
@@ -179,11 +186,11 @@
                                         <td>
 											当前为第&nbsp;<span th:text="${pageNo}"/> &nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;
                                             共&nbsp; <span th:text="${pageCount}"/> &nbsp;页&nbsp;<span th:text="${count}"/> &nbsp;条记录&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{tables(pageNo=${pageNo}-1)}" >上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{tables(pageNo=${pageNo}+1)}" >下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{billList(pageNo=${pageNo}-1)}" th:if="${pageNo}!=1">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{billList(pageNo=${pageNo}+1)}" th:if="${pageCount}!=${pageNo}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                         </td>
                                         <td>
-                                            <form th:action="@{tables}"  method="post">
+                                            <form th:action="@{billList}"  method="post">
                                                 跳到第<input type="text" name="pageNo" style="width:5%;height:80%">页&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="跳转" >
                                             </form>
                                         </td>
