@@ -52,6 +52,7 @@
 
 											<div class="space-6"></div>
 
+											<p style="color:#FF0000" th:if="${loginError}" class="error">用户名或密码错误！</p>
 											<form class="loginForm" th:action="@{login}" method="post">
 												<fieldset>
 													<!--<div class="block clearfix">-->

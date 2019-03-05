@@ -31,7 +31,7 @@ public class BillSearch {
      * 返回查询结果分页
      * @param map
      * @param start
-     * @param pageNo
+     * @param pageSize
      * @return
      */
     public List<Bill> findBillPage(LinkedHashMap<String,Object> map, int start, int pageSize){

@@ -66,7 +66,7 @@
 
 								<div class="search">
 									<table width="100%" class="CSSearchTbl" cellpadding="0" cellspacing="0">
-										<form th:action="@{tables1(pageNo=1)}" method="post">
+										<form th:action="@{billSearch(pageNo=1)}" method="post">
 											<tr>
 												<td class="left">用例编号：</td>
 												<td class="right"><input type="text" size="16" name="name"></td>
@@ -153,11 +153,11 @@
 													</td>
 													<td>
 														<div class="hidden-sm hidden-xs btn-group">
-															<a th:href="@{interface}" class="btn btn-xs btn-success" title="">
+															<a th:href="@{billAdd}" class="btn btn-xs btn-success" title="">
 																<i class="ace-icon fa fa-search-plus bigger-120"></i>
 															</a>
 
-															<a th:href="@{interface(id=${interface.id})}" class="btn btn-xs btn-info">
+															<a th:href="@{billAdd(id=${interface.id})}" class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</a>
 
@@ -179,11 +179,11 @@
                                         <td>
 											当前为第&nbsp;<span th:text="${pageNo}"/> &nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;
                                             共&nbsp; <span th:text="${pageCount}"/> &nbsp;页&nbsp;<span th:text="${count}"/> &nbsp;条记录&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{tables1(pageNo=${pageNo}-1)}" >上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{tables1(pageNo=${pageNo}+1)}" >下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{billSearch(pageNo=${pageNo}-1,name=${map.get('name')},url=${map.get('url')},type=${map.get('type')},header=${map.get('header')})}"  th:if="${pageNo}!=1">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{billSearch(pageNo=${pageNo}+1,name=${map.get('name')},url=${map.get('url')},type=${map.get('type')},header=${map.get('header')})}" th:if="${pageCount}!=${pageNo}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                         </td>
                                         <td>
-                                            <form th:action="@{tables}"  method="post">
+                                            <form th:action="@{billSearch(name=${map.get('name')},url=${map.get('url')},type=${map.get('type')},header=${map.get('header')})}"  method="post">
                                                 跳到第<input type="text" name="pageNo" style="width:5%;height:80%">页&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="跳转" >
                                             </form>
                                         </td>

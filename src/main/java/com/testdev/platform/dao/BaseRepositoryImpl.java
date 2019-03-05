@@ -26,6 +26,20 @@ public class BaseRepositoryImpl <T, ID extends Serializable>  implements BaseRep
 
     @Transactional
     @Override
+    public boolean save(T entity){
+        boolean flag=false;
+        try {
+            entityManager.persist(entity);
+            flag=true;
+        }catch (Exception e){
+            System.out.println("---------------保存出错---------------");
+            throw e;
+        }
+        return flag;
+    }
+
+    @Transactional
+    @Override
     public List<T> findByMoreFiled(String tablename,LinkedHashMap<String,Object> map) {
         String sql="from "+tablename+" u WHERE ";
         Set<String> set=null;
@@ -98,6 +112,38 @@ public class BaseRepositoryImpl <T, ID extends Serializable>  implements BaseRep
             query.setParameter(i+1,"%"+map.get(filedlist.get(i))+"%");
         }
         return query.getSingleResult();
+    }
+
+    @Transactional
+    @Override
+    public Object findByid(Object o,int id) {
+        return entityManager.find(o.getClass(),id);
+    }
+
+    @Transactional
+    @Override
+    public boolean delete(T entity) {
+        boolean flag=false;
+        try {
+            entityManager.remove(entityManager.merge(entity));
+            flag=true;
+        }catch (Exception e){
+            System.out.println("---------------删除出错---------------");
+        }
+        return flag;
+    }
+
+    @Transactional
+    @Override
+    public boolean update(T entity) {
+        boolean flag = false;
+        try {
+            entityManager.merge(entity);
+            flag = true;
+        } catch (Exception e) {
+            System.out.println("---------------更新出错---------------");
+        }
+        return flag;
     }
 }
 
