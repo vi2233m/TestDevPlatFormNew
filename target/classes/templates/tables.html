@@ -84,23 +84,23 @@
 													</select>
 												</td>
 											</tr>
-											<tr>
+											<tr align="center">
 												<td class="left">项目：</td>
 												<td class="right"><input type="text" size="16" name="header"></td>
-												<!--<td class="left">差旅单创建时间：</td>-->
-												<!--<td class="right"><input type="text" size="16" class="datePicker"> 至 <input type="text" size="16" class="datePicker"></td>-->
-												<!--<td class="left">差旅时间范围：</td>-->
-												<!--<td class="right"><input type="text" size="16" class="datePicker"> 至 <input type="text" size="16" class="datePicker"></td>-->
-												<td class="left">时间范围：</td>
-												<td class="right">
-													<div class="input-group">
-														<span class="input-group-addon">
-															<i class="fa fa-calendar bigger-110"></i>
-														</span>
-														<input class="form-control active" type="text" name="date-range-picker" id="id-date-range-picker-1" >
-													</div>
-												</td>
-												<td class="right" colspan="2">
+												<td class="left">差旅单创建时间：</td>
+												<td class="right"><input type="text" size="16" class="datePicker"> 至 <input type="text" size="16" class="datePicker"></td>
+												<td class="left">差旅时间范围：</td>
+												<td class="right"><input type="text" size="16" class="datePicker"> 至 <input type="text" size="16" class="datePicker"></td>
+												<!--<td class="left">时间范围：</td>-->
+												<!--<td class="right">-->
+													<!--<div class="input-group">-->
+														<!--<span class="input-group-addon">-->
+															<!--<i class="fa fa-calendar bigger-110"></i>-->
+														<!--</span>-->
+														<!--<input class="form-control active" type="text" name="date-range-picker" id="id-date-range-picker-1" >-->
+													<!--</div>-->
+												<!--</td>-->
+												<td class="right" colspan="2" style="text-align:right">
 													<button type="submit" class="btn btn-primary pull-left col-sm-12 tbl-search" data-dismiss="modal" >
 														开始搜索
 														<i class="ace-icon fa fa-search"></i>
@@ -124,10 +124,10 @@
 													</th>
 													<th class="hidden-480" width="5%">ID</th>
 													<th class="hidden-480" width="10%">用例编号</th>
-													<th class="hidden-480" width="10%">用例名称</th>
-													<th class="hidden-480" width="25%">功能描述</th>
-													<th class="hidden-480" width="20%">所属模块</th>
-													<th class="hidden-480" width="20%">所属项目</th>
+													<th class="hidden-480" width="10%">请求方式</th>
+													<th class="hidden-480" width="25%">URL</th>
+													<th class="hidden-480" width="20%">请求头</th>
+													<th class="hidden-480" width="20%">创建时间</th>
 													<th class="hidden-480" width="10%">操作</th>
 												</tr>
 											</thead>
@@ -153,11 +153,11 @@
 													</td>
 													<td>
 														<div class="hidden-sm hidden-xs btn-group">
-															<a th:href="@{billAdd}" class="btn btn-xs btn-success" title="">
+															<a th:href="@{billView(id=${interface.id},addStatus=false)}" class="btn btn-xs btn-success" title="">
 																<i class="ace-icon fa fa-search-plus bigger-120"></i>
 															</a>
 
-															<a th:href="@{billAdd(id=${interface.id})}" class="btn btn-xs btn-info">
+															<a th:href="@{billView(id=${interface.id},addStatus=false)}" class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</a>
 
@@ -186,13 +186,15 @@
                                         <td>
 											当前为第&nbsp;<span th:text="${pageNo}"/> &nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;
                                             共&nbsp; <span th:text="${pageCount}"/> &nbsp;页&nbsp;<span th:text="${count}"/> &nbsp;条记录&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{billList(pageNo=${pageNo}-1)}" th:if="${pageNo}!=1">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{billList(pageNo=${pageNo}+1)}" th:if="${pageCount}!=${pageNo}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{billList(pageNo=${pageNo}-1)}" class="btn btn-info btn-xs" th:if="${pageNo}!=1">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{billList(pageNo=${pageNo}+1)}" class="btn btn-info btn-xs" th:if="${pageCount}!=${pageNo}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                         </td>
                                         <td>
                                             <form th:action="@{billList}"  method="post">
-                                                跳到第<input type="text" name="pageNo" style="width:5%;height:80%">页&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="跳转" >
-                                            </form>
+                                                <!--跳到第<input type="text" name="pageNo" value="1" style="width:5%;height:50%" >页&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="跳转" >-->
+												跳到第<input type="text" name="pageNo" class="ui-pg-input" value="1" size="2" maxlength="7" role="textbox">页&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="跳转" >
+												<!--<input class="ui-pg-input" type="text" size="2" maxlength="7" value="0" role="textbox">-->
+											</form>
                                         </td>
                                     </tr>
                                 </div>

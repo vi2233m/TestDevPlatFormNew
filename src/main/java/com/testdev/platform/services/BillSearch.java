@@ -49,4 +49,13 @@ public class BillSearch {
         return result;
     }
 
+    /**
+     * 更新数据
+     * @param bill
+     * @return
+     */
+    public boolean updateBill(Bill bill){
+        boolean isSuccess = this.baseRepository.update(bill);
+        return isSuccess;
+    }
 }

@@ -19,8 +19,8 @@ public class IndexController {
     @Autowired
     private BillRepositroy billRepository;
     @RequestMapping(value = "/billList")
-    public String billList1(Model model, @RequestParam(value = "pageNo") int pageNo) {
-        System.out.println("pageNo: " + pageNo);
+    public String billList1(Model model, @RequestParam(value = "pageNo") String pageNum) {
+        System.out.println("pageNo: " + pageNum);
         long count = this.billRepository.count();
         int pageSize = 10;
         long pageCount;
@@ -28,6 +28,18 @@ public class IndexController {
             pageCount = count/pageSize + 1;
         }else {
             pageCount = count/pageSize;
+        }
+
+        int pageNo = 1;
+        if(pageNum != null && pageNum != ""){
+            try {
+                pageNo = Integer.parseInt(pageNum);
+            }catch (Exception e){
+                pageNo = 1;
+            }
+
+        }else {
+            pageNo = 1;
         }
 
         if (pageNo > 1 && pageNo < pageCount) {

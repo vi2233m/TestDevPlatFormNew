@@ -124,10 +124,10 @@
 													</th>
 													<th class="hidden-480" width="5%">ID</th>
 													<th class="hidden-480" width="10%">用例编号</th>
-													<th class="hidden-480" width="10%">用例名称</th>
-													<th class="hidden-480" width="25%">功能描述</th>
-													<th class="hidden-480" width="20%">所属模块</th>
-													<th class="hidden-480" width="20%">所属项目</th>
+													<th class="hidden-480" width="10%">请求方式</th>
+													<th class="hidden-480" width="25%">URL</th>
+													<th class="hidden-480" width="20%">请求头</th>
+													<th class="hidden-480" width="20%">创建时间</th>
 													<th class="hidden-480" width="10%">操作</th>
 												</tr>
 											</thead>
@@ -153,17 +153,24 @@
 													</td>
 													<td>
 														<div class="hidden-sm hidden-xs btn-group">
-															<a th:href="@{billAdd}" class="btn btn-xs btn-success" title="">
+															<a th:href="@{billView(id=${interface.id},addStatus=false)}" class="btn btn-xs btn-success" title="">
 																<i class="ace-icon fa fa-search-plus bigger-120"></i>
 															</a>
 
-															<a th:href="@{billAdd(id=${interface.id})}" class="btn btn-xs btn-info">
+															<a th:href="@{billView(id=${interface.id},addStatus=false)}" class="btn btn-xs btn-info">
 																<i class="ace-icon fa fa-pencil bigger-120"></i>
 															</a>
 
-															<button class="btn btn-xs btn-danger">
+															<script language="javascript">
+                                                                function delcfm() {
+                                                                    if (!confirm("确认要删除？")) {
+                                                                        window.event.returnValue = false;
+                                                                    }
+                                                                }
+															</script>
+															<a th:href="@{billDelete(id=${interface.id})}" onclick="delcfm()" class="btn btn-xs btn-danger">
 																<i class="ace-icon fa fa-trash-o bigger-120"></i>
-															</button>
+															</a>
 														</div>
 													</td>
 												</tr>
@@ -179,8 +186,8 @@
                                         <td>
 											当前为第&nbsp;<span th:text="${pageNo}"/> &nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;
                                             共&nbsp; <span th:text="${pageCount}"/> &nbsp;页&nbsp;<span th:text="${count}"/> &nbsp;条记录&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{billSearch(pageNo=${pageNo}-1,name=${map.get('name')},url=${map.get('url')},type=${map.get('type')},header=${map.get('header')})}"  th:if="${pageNo}!=1">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a th:href="@{billSearch(pageNo=${pageNo}+1,name=${map.get('name')},url=${map.get('url')},type=${map.get('type')},header=${map.get('header')})}" th:if="${pageCount}!=${pageNo}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{billSearch(pageNo=${pageNo}-1,name=${map.get('name')},url=${map.get('url')},type=${map.get('type')},header=${map.get('header')})}"  class="btn btn-info btn-xs" th:if="${pageNo}!=1">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{billSearch(pageNo=${pageNo}+1,name=${map.get('name')},url=${map.get('url')},type=${map.get('type')},header=${map.get('header')})}"  class="btn btn-info btn-xs" th:if="${pageCount}!=${pageNo}">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                         </td>
                                         <td>
                                             <form th:action="@{billSearch(name=${map.get('name')},url=${map.get('url')},type=${map.get('type')},header=${map.get('header')})}"  method="post">

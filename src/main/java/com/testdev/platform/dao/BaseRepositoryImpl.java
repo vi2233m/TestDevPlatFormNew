@@ -122,19 +122,6 @@ public class BaseRepositoryImpl <T, ID extends Serializable>  implements BaseRep
 
     @Transactional
     @Override
-    public boolean delete(T entity) {
-        boolean flag=false;
-        try {
-            entityManager.remove(entityManager.merge(entity));
-            flag=true;
-        }catch (Exception e){
-            System.out.println("---------------删除出错---------------");
-        }
-        return flag;
-    }
-
-    @Transactional
-    @Override
     public boolean update(T entity) {
         boolean flag = false;
         try {

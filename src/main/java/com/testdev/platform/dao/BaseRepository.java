@@ -3,6 +3,7 @@ package com.testdev.platform.dao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 //@NoRepositoryBean //该注解表示 spring 容器不会创建该对象
-public interface BaseRepository <T, ID extends Serializable>  {
+public interface BaseRepository <T, ID extends Serializable> {
 
     /**
      * 保存数据对象
@@ -54,12 +55,6 @@ public interface BaseRepository <T, ID extends Serializable>  {
      * @return
      */
     T findByid(T t,int id);
-
-    /**
-     * 根据表的id删除数据
-     * @param  entity
-     */
-    boolean delete(T entity);
 
     /**
      * 更新对象
